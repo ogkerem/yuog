@@ -1,0 +1,26 @@
+* Tur kategori 3 basamak   +
+* Güzergahlar istenmiyor +
+* Tur Programı sınırsız olacak +
+* https://sahabettin.tk/YUOG/index.php?sy=turekle bu bölüm tab yapılacak +
+* Hareket noktalarını yönetelim +
+* Ekstralar için başlık + fiyat yazılacak sitede aynı hizmeti birden fazla alınacak şekilde seneryo edecez. + 
+* sefer tarihlerinde uçak dahil, kesin hareket burası dinamik olacak , turlara eklenecek +
+* tur seferlerinde min kişi gerek yok +
+* tur seferlerinde max oda gelecek oda sayısında fazla satın alınamayacak 
+* tur müsaitliği var olan sistem referans alınacak 
+* satın alınan turlar lazım değil  +
+* otel istemiyoruz geçici olarak +
+* 
+
+
+21.12.2019 notları 
+
+* tur durum listesi +
+* tur kişi listesi 
+* tur listesi excele atılacak 
+* hizmetler bölümü olacak 
+* site al bölge link olacak 
+* panelde genel bilgileri bölümü olacak 
+* rezevasyon sonrası cari / kredi kartı / havale olacak cari sistemi olacak (acentelar) 
+* 
+

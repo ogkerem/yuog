@@ -1,0 +1,485 @@
+	<?php 
+	
+	defined('YUOG') OR exit('No direct script access allowed / Yetkisiz Erişim ');
+	
+	$konu 	= "odul";
+	$kat 	= "urunkat";
+	
+	$id 	= $_GET['id'];
+	$yaz1 	= $mysqli->query("select * from $konu where id='$id' ");
+	$yaz 	= $yaz1->fetch_array();
+	
+	$seoID 	= $yaz['seo'];
+	$seobul	= $mysqli->query("select * from seo where id='$seoID' ");
+	$seoyaz = $seobul->fetch_array();
+	$dil 	= $yaz['dil']; 
+	$dilbul = $mysqli->query("select * from diller where id='$dil' ");
+	$dilyaz = $dilbul->fetch_array();
+	
+	?>
+	 
+	 <div class="main-content">
+	
+   <div class="breadcrumb">
+                <h1><a href="?sy=<?php echo $konu; ?>">Ödüller</a>  >  <?php echo $dilyaz['baslik']; ?>  </h1>
+                <ul>
+                    <li><a href="index.php">Ana Sayfa</a></li>
+                    <li>İçerik Güncelleme</li>
+                  
+                     
+                </ul>
+            </div>
+		 
+		  
+<script type="text/javascript">
+	
+	$(function(){
+		
+		$(".resimsill1").click(function(){
+		   $(this).parent().remove();
+		   return false;
+		}); 
+		
+	}); 
+ </script>
+	 
+	 
+	 
+            <div class="separator-breadcrumb border-top"></div>
+  
+	
+	 <?php $islem = @$_GET['islem']; 
+			if($islem=="basarili"){
+				
+	 echo '	<div class="alert alert-card alert-success" role="alert">
+			<strong class="text-capitalize">Başarılı !</strong> İşleminiz başarıyla gerçekleştirilmiştir.
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div> ';
+			}
+			
+			?>
+ 		
+            <div class="row">
+                <div class="col-md-12">
+                   
+                    <p>  </p>
+                    <div class="card mb-5">
+                        <div class="card-body">
+ 
+					
+						<?php 
+if($_POST){ 
+	
+	$proje				= $_POST['proje'];
+	$ustkatID			=  $_POST['ustkatID'];
+	// $katID				=  $_POST['katID'];
+	$anasayfa			=  $_POST['anasayfa'];
+	
+	$yetkili			=  addslashes(trim($_POST['yetkili'])); 
+	$ymail				=  addslashes(trim($_POST['ymail'])); 
+	$tel				=  addslashes(trim($_POST['tel']));  
+	
+	$renk				= addslashes(trim($_POST['renk']));
+	$baslik				= addslashes(trim($_POST['baslik']));
+	$onyazi				= addslashes(trim($_POST['onyazi']));
+	$icerik				= addslashes(trim($_POST['icerik']));
+	$keywords			= addslashes(trim($_POST['keywords']));
+	$description		= addslashes(trim($_POST['description']));
+	$etiket				= addslashes(trim($_POST['etiket']));
+	 
+	// $vbaslik			= addslashes(trim($_POST['vbaslik']));
+	// $vaciklama			= addslashes(trim($_POST['vaciklama']));
+	$vlink				= addslashes(trim($_POST['vlink']));
+	 
+	$eskiresimler		= $_POST['eskiresimler'];	  
+	$rtopluad			= $_FILES['rtoplu']['name'];
+	$rtoplukaynak		= $_FILES['rtoplu']['tmp_name'];
+	$say 				= count($rtopluad);
+  
+	$eskidosyalar		= $_POST['eskidosyalar'];	  
+	$dosyaad			= $_FILES['dosya']['name'];
+	$dosyakaynak		= $_FILES['dosya']['tmp_name'];
+	$dsay 				= count($dosyaad);
+	 
+	 
+	// $ibaslik			= addslashes(trim($_POST['ibaslik']));
+	// $iicerik			= addslashes(trim($_POST['iicerik']));
+ 
+	$sira				= trim($_POST['sira']); 
+	 
+	$dil				= trim($_POST['dil']); 
+	 
+	$durum1				= $_POST['durum']; 	 
+	if($durum1=="on"){ $durum = 1; } else { $durum = 0; }  
+	 
+	$ustresimad			= $_FILES['ustresim']['name']; 
+	$ustkaynak			= $_FILES['ustresim']['tmp_name']; 
+	$gustresim			= $_POST['gustresim']; 
+	
+	$resimad			= $_FILES['resim']['name']; 
+ 	$kaynak				= $_FILES['resim']['tmp_name']; 
+	$gresim				= $_POST['gresim'];  
+	 
+	$iconad				= $_FILES['icon']['name'];  	
+	$gicon				= $_POST['gicon']; 
+		 
+	$kresimad			= $_FILES['kresim']['name'];  	
+	$gkresim			= $_POST['gkresim']; 
+	
+	$vresimad			= $_FILES['vresim']['name']; 
+	$vkaynak			= $_FILES['vresim']['tmp_name']; 
+	$gvresim			= $_POST['gvresim'];  
+	
+	$pdfad				= $_FILES['pdf']['name']; 
+	 
+	$rhedef				= "../uploads/".$konu."/";	
+	 
+	$yeniurlmiz 		=  $_POST['seourl'];
+	
+	$seosor			= $mysqli->query("select * from seo where seo='$yeniurlmiz' && id!='$seoID' ");
+	$seoyazz		= $seosor->fetch_array(); 
+	$seosay 		= $seosor->num_rows;		  
+	if($seosay>0){
+		$sonurl = rand(0,100).'-'.$yeniurlmiz;
+	} else { 
+		$sonurl = $yeniurlmiz;
+	}
+	
+	$seoguncelle = $mysqli->query("update seo set seo='$sonurl', durum='$durum' where id='$seoID' ");
+ 
+	
+	$gonder  	= $mysqli->query(" update $konu set  
+		
+		katID 				='$ustkatID', 
+		 
+		renk 				='$renk',
+	 
+		baslik 				='$baslik', 
+		onyazi 				='$onyazi', 
+		icerik 				='$icerik', 
+		keywords 			='$keywords', 
+		description			='$description',  
+		vbaslik				= '$vbaslik',
+		vaciklama			= '$vaciklama',
+		vlink				= '$vlink',	 
+		ibaslik				= '$ibaslik',
+		iicerik				= '$iicerik', 
+		
+		yetkili 			='$yetkili', 
+		ymail 				='$ymail', 
+		tel 				='$tel', 
+
+		
+		sira				= '$sira',
+		dil					= '$dil', 
+		anasayfa			= '$anasayfa',
+		durum				= '$durum'  
+	  
+		where id='$id'
+	 
+	  ");   
+	  
+	if($gonder){
+	 
+	 //resimler 
+		if($ustresimad!=""){ 	 
+		
+		unlink($rhedef.$gustresim);	
+		$kaynak		= $_FILES['resim']['tmp_name'];
+		$resimsonad = rand(0,999).'-'.yeniurl(res_adi($ustresimad)).res_uzanti($ustresimad);
+		$yukle 		= move_uploaded_file($ustkaynak,$rhedef."/".$resimsonad); 
+		$guncelle 	= $mysqli->query("update $konu set ustresim='$resimsonad' where id='$id' ");
+	}	
+	
+	if($iconad!=""){ 	 
+		
+		unlink($rhedef.$gicon);		
+		$kaynak1		= $_FILES['icon']['tmp_name'];
+		$resimsonad1 	= rand(0,999).'-'.yeniurl(res_adi($iconad)).res_uzanti($iconad);
+		$yukle 			= move_uploaded_file($kaynak1,$rhedef."/".$resimsonad1); 
+		$guncelle 		= $mysqli->query("update $konu set icon='$resimsonad1' where id='$id' ");	
+	}
+	
+	if($kresimad!=""){ 	 
+		
+		unlink($rhedef.$gkresim);		
+		$kaynak1		= $_FILES['kresim']['tmp_name'];
+		$resimsonad1 	= rand(0,999).'-'.yeniurl(res_adi($kresimad)).res_uzanti($kresimad);
+		$yukle 			= move_uploaded_file($kaynak1,$rhedef."/".$resimsonad1); 
+		$guncelle 		= $mysqli->query("update $konu set kresim='$resimsonad1' where id='$id' ");	
+	}
+	
+	
+	if($resimad!=""){ 	 
+		
+		unlink($rhedef.$gresim);	
+		$kaynak		= $_FILES['resim']['tmp_name'];
+		$resimsonad = rand(0,999).'-'.yeniurl(res_adi($resimad)).res_uzanti($resimad);
+		$yukle 		= move_uploaded_file($kaynak,$rhedef."/".$resimsonad); 
+		$guncelle 	= $mysqli->query("update $konu set resim='$resimsonad' where id='$id' ");
+	}
+	 
+	if($vresimad!=""){ 	 
+		
+		unlink($rhedef.$gvresim);		
+		$kaynak1		= $_FILES['vresim']['tmp_name'];
+		$resimsonad1 	= rand(0,999).'-'.yeniurl(res_adi($vresimad)).res_uzanti($vresimad);
+		$yukle 			= move_uploaded_file($kaynak1,$rhedef."/".$resimsonad1); 
+		$guncelle 		= $mysqli->query("update $konu set vresim='$resimsonad1' where id='$id' ");	
+	}
+	  
+	// if($pdfad!=""){ 	 
+		 
+		// $gpdf				= $_POST['gpdf'];  
+		// unlink($rhedef.$gpdf);		
+		// $kaynak1		= $_FILES['pdf']['tmp_name'];		 
+		// $yukle 			= move_uploaded_file($kaynak1,$rhedef."/".$pdfad); 
+		// $guncelle 		= $mysqli->query("update $konu set pdf='$pdfad' where id='$id' ");	
+	// }
+	   
+		//etiketler 
+			$ebakp = explode(",",$etiket);  
+				$esay =   count($ebakp)    ;
+				$etsil = $mysqli->query("delete from etiket where konu=$konu && konuID='$id'  "); 
+			 
+				for($yy=0; $yy < $esay; $yy++){
+					$etiket1  = trim($ebakp[$yy]);
+					if($etiket1!=""){ 
+		$etiketekle = $mysqli->query ("insert into etiket (`baslik`, `seo`, `konu`, `konuID` ) values ('$etiket1' , '$seoID' , $konu , '$id' ) ");
+ 
+				}	
+				}
+		
+	/* toplu resimler */
+	$eskiressay 	= count($eskiresimler);
+	$esgun 			= $mysqli->query("update galeri set durum='0' where icerikID='$id' && konu='$konu' "); 
+	for($dd=0; $dd < $eskiressay; $dd++){	 
+	$resID			= $eskiresimler[$dd]; 
+	 
+	$esgun 			= $mysqli->query("update galeri set durum='1' where icerikID='$id' && id='$resID' && konu='$konu' "); 
+		 }		 
+	  
+    if($rtopluad[0]!=""){
+			   
+			for($x = 0; $x < $say; $x++){
+				 
+				$rbaslik	= $rtopluad[$x];
+				$rkaynak	= $rtoplukaynak[$x];		 
+				$rsonadi 	= $x.'-'.yeniurl(res_adi($rbaslik)).res_uzanti($rbaslik);
+	 
+	$vyukle = $mysqli->query("insert into galeri (icerikID, konu, baslik, resim, sira ,durum ) values('$id','$konu','$rbaslik','$rsonadi' ,  '0', '1'   ) ");
+	
+	$yukle 	= move_uploaded_file($rkaynak,$rhedef."/".$rsonadi);
+	 
+			}
+			 
+		   }
+	   
+	  /* toplu dosyalar */
+	$eskidosyasay 	= count($eskidosyalar);
+	$esgun 			= $mysqli->query("update dosya set durum='0' where icerikID='$id' && konu='$konu' "); 
+	for($dd=0; $dd < $eskidosyasay; $dd++){	 
+	$resID			= $eskidosyalar[$dd];	 
+	$esgun 			= $mysqli->query("update dosya set durum='1' where icerikID='$id' && id='$resID' && konu='$konu' "); 
+		 }		 
+	 
+ 
+    if($dosyaad[0]!=""){
+			   
+			for($x = 0; $x < $dsay; $x++){
+				 
+				$rbaslik	= $dosyaad[$x];
+				$rkaynak	= $dosyakaynak[$x];		 
+				$rsonadi 	= rand(0,999).'-'.yeniurl(res_adi($rbaslik)).res_uzanti($rbaslik);
+	 
+	$vyukle = $mysqli->query("insert into dosya (icerikID, konu, baslik, resim, sira ,durum ) values('$id','$konu','$rbaslik','$rsonadi' ,  '0', '1'   ) ");
+	
+	$yukle 	= move_uploaded_file($rkaynak,$rhedef."/".$rsonadi);
+	 
+			}
+			 
+		   }
+	   
+	   
+
+	 	$projesil = $mysqli->query("delete from urunproje where icerikID='$id' ");		
+		$projesay 	= count($proje);		 
+		for($pp=0; $pp<$projesay; $pp++){ 
+			$proje1	= $proje[$pp];
+			$bolumekle = $mysqli->query("insert into urunproje (`proje`, `icerikID`) values ('$proje1' , '$id' ) ");
+		}
+
+		
+	 header("Location:?sy=".$konu."&islem=basarili");	
+		  
+	} else { echo '<div class="alert alert-danger" role="alert">
+				<strong class="text-capitalize">Hata!</strong>Hata İşlem Başarısız :(  
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div> <br /> <a href="javascript:history.back(-1)">Geri Dön</a>'; }   	  
+	 
+} else { 
+?>	
+
+
+
+	<form action="" method="post" enctype="multipart/form-data" >
+	
+	<div class="form-group row">
+		<label for="baslik" class="col-sm-2 col-form-label"> <i class="fa fa-language"></i> Dil </label>
+		
+	 
+    <div class="col-2">
+    
+	  <select class="custom-select task-manager-list-select" name="dil">
+	  
+	  <?php $dilbak = $mysqli->query("select * from diller ");
+	 
+			while($dilyaz = $dilbak->fetch_array()){
+				if($dilyaz['id']==$dil){
+				echo '<option value="'.$dilyaz['id'].'" selected>'.$dilyaz['baslik'].'</option>';
+				} else {
+				echo '<option value="'.$dilyaz['id'].'">'.$dilyaz['baslik'].'</option>';
+				}
+			}
+
+?>  
+	 </select>
+	 
+	 
+    </div>
+     
+ </div>
+
+
+<div class="form-group row">
+		<label for="baslik" class="col-sm-2 col-form-label">Başlık * </label>
+		<div class="col-sm-6">
+		 <input type="text" name="baslik" class="form-control" id="baslik" placeholder="Başlık" value="<?php echo $yaz['baslik']; ?>" required >
+		</div>
+	</div>
+	
+  
+   
+  <div class="form-group row">
+		<label for="onyazi" class="col-sm-2 col-form-label"> Ön Yazı </label>
+		<div class="col-sm-10">
+		<textarea name="onyazi" class="form-control" id="onyazi" cols="50" rows="2" placeholder="Ön Yazı" ><?php echo $yaz['onyazi']; ?></textarea>
+			 
+		</div>
+	</div>   
+ 
+  
+	
+	
+	  <div class="form-group row">
+		<label for="resim" class="col-sm-2 col-form-label"><i class="nav-icon fa fa-image"></i> Resim  ( 750 * 864)*  </label>
+		<div class="col-sm-3">
+		  <input type="file" name="resim" class="form-control" id="resim" placeholder=""   > 
+		  <small id="resim" class="ul-form__text form-text "> Yeni resim istemiyorsanız işlem yapmayınız </small>	
+		  <input type="hidden" name="gresim"  value="<?php echo $yaz['resim']; ?>"   > 
+		 
+			 				
+		</div>
+	<a href="../uploads/<?php echo $konu; ?>/<?php echo $yaz['resim']; ?>" turunt="_blank" >
+	<img src="../uploads/<?php echo $konu; ?>/<?php echo $yaz['resim']; ?>" title=" Resim" alt=" Resim" style="background-color:#ddd; width:50px; "></a>
+	</div>
+	
+ 
+ 
+	
+		<div class="form-group row">
+	<label for="anasayfa" class="col-sm-2 col-form-label">Ana Sayfada Göster </label>
+	<div class="col-sm-2">
+	 
+		<label class="switch switch-warning mr-3" id="anasayfa">
+			<input name="anasayfa" type="checkbox" <?php if($yaz['anasayfa']==1){ echo 'checked'; } ?> value="1">
+			<span class="slider"></span>
+		</label>  
+	</div> 
+	</div>
+	
+		 		
+ 
+		
+	
+	<div class="form-group row">
+	<label for="sira" class="col-sm-2 col-form-label">Sıra </label>
+	<div class="col-sm-1">
+	  <input type="text" name="sira" class="form-control" id="sira" placeholder="Sıra" value="<?php echo $yaz['sira']; ?>" > 
+		
+						
+		</div>
+		 
+	</div>
+	
+		<div class="form-group row">
+	<label for="durum" class="col-sm-2 col-form-label">Durum </label>
+	<div class="col-sm-2">
+	  
+	<label class="switch switch-primary mr-3" id="durum">
+		 
+		  <input name="durum" type="checkbox" <?php if($yaz['durum']=="1"){ echo 'checked'; }?>  > 
+		  
+		<span class="slider"></span>
+	</label>
+			 
+		</div>
+		
+		</div>
+		
+		 <hr/>	
+
+<div class="form-group row">
+	<label for="ekleyen" class="col-sm-2 col-form-label">Ekleyen </label>
+	<div class="col-sm-2">
+	 <?php echo $yaz['ekleyen']; ?> 
+		
+						
+		</div>
+		 
+	</div>	
+
+<div class="form-group row">
+	<label for="eklemetarih" class="col-sm-2 col-form-label">Ekleme Tarihi </label>
+	<div class="col-sm-2">
+	 <?php echo $yaz['tarih']; ?> 
+		
+						
+		</div>
+		 
+	</div>	
+ 
+<div class="form-group row">
+	<label for="eklemetarih" class="col-sm-2 col-form-label">IP </label>
+	<div class="col-sm-2">
+	 <?php echo $yaz['ip']; ?> 
+		
+						
+		</div>
+		 
+	</div>	
+ 
+ 
+ 
+	<div class="form-group row">
+	<label for="sira" class="col-sm-2 col-form-label">  </label>
+		<div class="col-sm-10">
+			<button type="submit" class="btn btn-primary ul-btn__text">İçerik Güncelle</button>
+		 
+		</div>
+	</div>
+	
+</form>
+
+<?php } ?>
+		</div>
+	</div>
+</div>
+</div>
+            
+  </div>  		
+				

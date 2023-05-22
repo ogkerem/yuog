@@ -1,0 +1,171 @@
+	<?php 
+	
+	defined('YUOG') OR exit('No direct script access allowed / Yetkisiz Erişim ');
+	$konu 	= "destek"; 
+	$kat 	= $konu.'kat';
+ 
+	 
+	?>
+	
+	
+<div class="main-content">
+                    
+<div class="breadcrumb">
+  
+	 <h1> <a href="?sy=<?php echo $konu; ?>"> Destek </a> </h1>
+    <ul>
+        <li><a href="index.php">Ana Sayfa</a></li>
+       
+        <li> İçerikler </li>
+		 
+    </ul>
+</div>
+<div class="separator-breadcrumb border-top"></div>
+
+ <?php $islem = @$_GET['islem']; 
+			if($islem=="basarili"){
+				
+	 echo '	<div class="alert alert-card alert-success" role="alert">
+			<strong class="text-capitalize">Başarılı !</strong> İşleminiz başarıyla gerçekleştirilmiştir.
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div> ';
+			}
+			
+			?>
+			
+			
+<section class="contact-list">
+    <div class="row">
+            <div class="col-md-12 mb-4">
+                    <div class="card text-left">
+<div class="card-header text-right bg-transparent">
+	<!-- <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary btn-md m-1"><i class="i-Add-User text-white mr-2"></i> İçerik Ekle </button> 
+	
+	<a href="?sy=<?php echo $konu; ?>ekle"><button type="button" class="btn btn-primary btn-icon m-1">
+	 <span class="ul-btn__icon"> <i class="fa fa-plus" ></i> </span>
+		<span class="ul-btn__text">Yeni İçerik Ekle</span>
+	</button>
+	</a>-->
+	
+	<!-- <a href="?sy=<?php echo $kat; ?>"><button type="button" class="btn btn-warning btn-icon m-1">
+	 <span class="ul-btn__icon"> <i class="fa fa-asterisk" ></i> </span>
+		<span class="ul-btn__text">Kategoriler</span>
+	</button>
+	</a>
+	
+	<a href="?sy=destekarsiv"><button type="button" class="btn btn-danger btn-icon m-1">
+	 <span class="ul-btn__icon"> <i class="fa fa-calendar" ></i> </span>
+		<span class="ul-btn__text">Arşiv</span>
+	</button>
+	</a>
+	 
+	<a href="?sy=cikisnokta"><button type="button" class="btn btn-light btn-icon m-1">
+	 <span class="ul-btn__icon"> <i class="fa fa-share" ></i> </span>
+		<span class="ul-btn__text">Çıkış Noktaları</span>
+	</button>
+	</a> 
+	
+	 <a href="?sy=bilgi&konu=<?php echo $konu;?>"><button type="button" class="btn btn-light btn-icon m-1">
+	 <span class="ul-btn__icon"> <i class="fa fa-share" ></i> </span>
+		<span class="ul-btn__text"> Genel Açıklama </span>
+	</button>
+	</a> -->
+										
+</div>
+                      
+                       
+
+                        <div class="card-body">
+                            
+                            <div class="table-responsive">
+			<table id="ul-contact-list" class="display table " style="width:100%">
+				<thead>
+					<tr>
+					 
+						<th>ID</th>
+						  
+						<th>Başlık</th> 
+						<th>Kategori</th> 
+						<th>Üye</th>  
+						<th>Tarih</th> 
+						<th>Durum</th> 
+						<th>İşlem</th> 
+						<th>İşlemler</th>
+					</tr>
+				</thead>
+				<tbody>
+                                       
+										
+			
+		<?php 
+		
+			$bak = $mysqli->query("select * from  $konu where durum='1' ");
+				while($yaz = $bak->fetch_array()){
+			
+			if($yaz['durum']==1){
+				$durum = '<a href="#" class="badge badge-success m-2 p-2">Aktif</a>'; 
+			} else {
+				$durum = '<a href="#" class="badge badge-danger m-2 p-2">Pasif</a>'; 
+			}
+			  
+		$katID			= $yaz['katID'];		
+		$katyaz		 	= $mysqli->query("select * from $kat where id='$katID' ")->fetch_array();
+	  
+		$musteriID 		= $yaz['uyeID'];
+		$musteriyaz 	= $mysqli->query("select * from uyeler where id='$musteriID' ")->fetch_array();
+		
+		$islem	 		= $yaz['islem'];
+		$islemyaz 		= $mysqli->query("select * from destekdurum where id='$islem' ")->fetch_array();
+			
+				echo '  <tr>
+			 
+				<td>'.$yaz['id'].'</td>
+		  
+				<td>'.$yaz['konu'].'</td>
+				
+			 
+				<td>'.$katyaz['baslik'].' </td>
+			 
+				<td> <a href="?sy=musterilerduzenle&id='.$musteriyaz['id'].'">'.$musteriyaz['adi'].' '.$musteriyaz['soyadi'].'</a></td>
+				<td>'.$yaz['tarih'].'</td>
+				<td>'.$islemyaz['baslik'].'</td>
+				<td>'.$durum.'</td>
+				
+				  <td>
+			 <a href="?sy='.$konu.'duzenle&id='.$yaz['id'].'" class="ul-link-action text-success"  data-toggle="tooltip" data-placement="top" title="Düzenle">
+						<i class="i-Edit"></i>
+					</a>
+					
+		<a href="?sy='.$konu.'sil&id='.$yaz['id'].'" class="ul-link-action text-danger mr-1"  data-toggle="tooltip" data-placement="top" title="Sil" onclick=" if ( !confirm(\'Kaydi silmek istediğinizden emin misiniz?\') ) return false;">
+				   <i class="i-Eraser-2"></i>
+			   </a>
+				   
+				</td>
+				
+					</tr>
+ 
+				'; 
+				
+					
+				}
+		
+		?>		
+			 
+                                       
+					</tbody>
+				   
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+    </div>
+</section> 
+  </div>
+				
+ <script>
+$('#ul-contact-list').DataTable();
+</script>

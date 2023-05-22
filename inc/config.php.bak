@@ -1,0 +1,108 @@
+<?php
+
+defined('YUOG') OR exit('No direct script access allowed / Yetkisiz Giriş ');
+
+ob_start();
+session_start();
+
+date_default_timezone_set('Europe/Istanbul');
+
+
+  error_reporting(E_ALL);
+  ini_set("display_errors", 1);
+
+
+$mysqli = new mysqli("localhost", "prsn_sy", "pvaVuj9BF", "prsn1_sy");
+$mysqli->query("SET NAMES 'utf8'  ");
+$mysqli->query("SET CHARACTER SET utf8");
+$mysqli->query("SET COLLATION_CONNECTION = 'utf8_general_ci' ");
+
+$genel = $mysqli->query("select * from ayarlar ");
+$genelbak = $genel->fetch_array();
+
+$canlibak = $mysqli->query("select * from analytic ");
+$canli = $canlibak->fetch_array();
+
+
+require_once(dirname(__FILE__) . '/security.php');
+$gelenurl = $_SERVER['REQUEST_URI'];
+
+function seocuk($seoID) {
+    global $mysqli;
+
+    $idd = (int) $seoID;
+    $seobcc = $mysqli->query("select * from seo where id='$idd' ");
+    $seobul = $seobcc->fetch_array();
+    $seo = $seobul['seo'];
+    // $seo 			= "sanane";
+
+    return $seo;
+}
+
+function turkcetarih_formati($format, $datetime = 'now') {
+    $z = date("$format", strtotime($datetime));
+    $gun_dizi = array(
+        'Monday' => 'Pazartesi',
+        'Tuesday' => 'Salı',
+        'Wednesday' => 'Çarşamba',
+        'Thursday' => 'Perşembe',
+        'Friday' => 'Cuma',
+        'Saturday' => 'Cumartesi',
+        'Sunday' => 'Pazar',
+        'January' => 'Ocak',
+        'February' => 'Şubat',
+        'March' => 'Mart',
+        'April' => 'Nisan',
+        'May' => 'Mayıs',
+        'June' => 'Haziran',
+        'July' => 'Temmuz',
+        'August' => 'Ağustos',
+        'September' => 'Eylül',
+        'October' => 'Ekim',
+        'November' => 'Kasım',
+        'December' => 'Aralık',
+        'Mon' => 'Pts',
+        'Tue' => 'Sal',
+        'Wed' => 'Çar',
+        'Thu' => 'Per',
+        'Fri' => 'Cum',
+        'Sat' => 'Cts',
+        'Sun' => 'Paz',
+        'Jan' => 'Oca',
+        'Feb' => 'Şub',
+        'Mar' => 'Mar',
+        'Apr' => 'Nis',
+        'Jun' => 'Haz',
+        'Jul' => 'Tem',
+        'Aug' => 'Ağu',
+        'Sep' => 'Eyl',
+        'Oct' => 'Eki',
+        'Nov' => 'Kas',
+        'Dec' => 'Ara',
+    );
+    foreach ($gun_dizi as $en => $tr) {
+        $z = str_replace($en, $tr, $z);
+    }
+    if (strpos($z, 'Mayıs') !== false && strpos($format, 'F') === false)
+        $z = str_replace('Mayıs', 'May', $z);
+    return $z;
+}
+
+
+function onyazi ($icerik, $sayi){
+	$parcala = explode(" ", $icerik);
+	$sayyy = count($parcala);
+	for($x=0; $x<=$sayi; $x++){
+		@$yazi.= $parcala[$x].' ';
+		
+	}
+	if($sayyy>$sayi){
+		$noktaa = ' ...';
+	} else {
+		$noktaa = '';
+	}
+	return $yazi.$noktaa;
+}
+
+
+?>

@@ -1,0 +1,109 @@
+RewriteEngine On
+
+RewriteBase /
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+RewriteRule ^hazir$ hazir.php$1
+RewriteRule ^sektor$ sektor.php$1
+RewriteRule ^gazlar$ gazlar.php$1
+
+RewriteRule ^koleksiyon$ koleksiyon.php$1
+RewriteRule ^search$ search.php$1
+
+RewriteRule ^urunlistesi$ urunlistesi.php$1
+RewriteRule ^urunarama$ urunarama.php$1
+
+
+RewriteRule ^home$ home.php$1
+RewriteRule ^login$ login.php$1
+
+RewriteRule ^iletisim$ iletisim.php$1
+RewriteRule ^destek$ destek.php$1
+RewriteRule ^destekdetay$ destekdetay.php$1
+RewriteRule ^helpme$ helpme.php$1
+RewriteRule ^cv$ cv.php$1
+
+RewriteRule ^contact$ iletisim.php$1
+
+RewriteRule ^contact/$ iletisim.php$1
+
+RewriteRule ^urunler$ urunler.php$1
+RewriteRule ^kvkk$ kvkk.php$1
+
+RewriteRule ^dil$ sections/dil.php$1
+
+RewriteRule ^iletisimdil$ sections/iletisimdil.php$1
+
+
+RewriteRule ^uyeol$ uyeol.php$1
+RewriteRule ^sifre-degistir$ sifre-degistir.php$1
+RewriteRule ^havale-bilgileri$ havale-bilgileri.php$1
+RewriteRule ^uye-giris$ userSections/uye-giris.php$1
+RewriteRule ^uye-ol$ userSections/uye-ol.php$1
+RewriteRule ^hesabim$ userSections/hesabim.php$1
+RewriteRule ^bilgilerim$ userSections/bilgilerim.php$1
+RewriteRule ^yurtici$ userSections/yurtici.php$1
+RewriteRule ^cikis$ userSections/cikis.php$1
+
+RewriteRule ^mailonay$ mailonay.php$1
+RewriteRule ^giris$ giris.php$1
+RewriteRule ^sepet$ sepet.php$1
+RewriteRule ^egitimcilerimiz$ egitimcilerimiz.php$1
+
+RewriteRule ^video$ video.php$1
+
+RewriteRule ^test$ test.php$1
+RewriteRule ^akademi$ akademi.php$1
+RewriteRule ^solutions$ solutions.php$1
+RewriteRule ^contact$ contact.php$1
+
+
+RewriteRule ^Robots.html$ robot.php$1
+RewriteRule ^google3e576849df93045b.html$ google.php$1
+
+
+
+RewriteRule ^siparis-tamamlandi$ siparis-tamamlandi.php$1
+
+RewriteRule ^sepet-sil$ sepet-sil.php$1
+RewriteRule ^siparisdetay$ siparisdetay.php$1
+RewriteRule ^sepetguncel$ sepetguncel.php$1
+RewriteRule ^kasa$ kasa.php$1
+RewriteRule ^odeme$ odeme.php$1
+RewriteRule ^onlineode$ onlineode.php$1
+RewriteRule ^tamamla$ tamamla.php$1
+
+RewriteRule ^siparislerim$ siparislerim.php$1
+RewriteRule ^sifrehatirla$ sifrehatirla.php$1
+RewriteRule ^hatirla$ hatirla.php$1
+RewriteRule ^anlasmali$ anlasmali.php$1
+#RewriteRule ^blog$ blog.php$1
+
+
+RewriteRule ^referans$ referans.php$1
+RewriteRule ^arama$ arama.php$1
+RewriteRule ^ekip$ ekip.php$1
+RewriteRule ^kayit$ kayit.php$1
+
+
+RewriteRule ^products$ products.php$1
+RewriteRule ^systems$ systems.php$1
+RewriteRule ^oursolutions$ oursolutions.php$1
+RewriteRule ^why$ why.php$1
+RewriteRule ^tools$ tools.php$1
+RewriteRule ^commercial$ commercial.php$1
+RewriteRule ^industrial$ industrial.php$1
+RewriteRule ^residential$ residential.php$1
+RewriteRule ^catalogue$ catalogue.php$1
+RewriteRule ^techinformation$ techinformation.php$1
+RewriteRule ^building$ building.php$1  
+
+  
+
+RewriteRule ^([a-zA-Z0-9_-]+)$ sayfa.php?sayfa=$1 [QSA,L]
+
+RewriteRule ^([a-zA-Z0-9_-]+).html$ sayfa.php?sayfa=$1.html [QSA,L]
+RewriteRule ^([a-zA-Z0-9_-]+)$ sayfa.php?sayfa=$1.html [QSA,L]
+RewriteRule ^(.+).html$ sayfa.php?sayfa=$1.html [QSA,L]
+ 
